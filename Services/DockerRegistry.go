@@ -1,16 +1,31 @@
 package Services
 
 import (
-	"gopkg.in/macaron.v1"
+	"io/ioutil"
 	"net/http"
+
+	"gopkg.in/macaron.v1"
 )
 
 func GetImages(ctx *macaron.Context) {
-	ctx.Resp.WriteHeader(200) // HTTP 200
-	ctx.Resp.Write([]byte("the request path is: " + ctx.Req.RequestURI))
-	// ... 处理内容
-}
+	message := "ok"
+	furl := "http://127.0.0.1:2375/images/json"
+	client := &http.Client{}
+	req, err := http.NewRequest("GET", furl, nil)
+	if err != nil {
+		message = "接口错误"
+	}
 
+	resp, err := client.Do(req)
+	defer resp.Body.Close()
+	body, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		message = "发送失败"
+	}
+
+	RetrunResult(string(body), 200, message, ctx.Resp)
+
+}
 
 // 验证一个 API 密钥
 func GetReg(ctx *macaron.Context) {

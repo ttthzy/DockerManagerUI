@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <title>{{.title}}</title>
+  <script src="http://libs.useso.com/js/zepto/1.1.3/zepto.min.js" charset="utf-8"></script>
+  <link rel="stylesheet" href="http://libs.useso.com/js/bootstrap/3.2.0/css/bootstrap-theme.min.css" media="screen" charset="utf-8">
+  <link rel="stylesheet" href="http://libs.useso.com/js/bootstrap/3.2.0/css/bootstrap.min.css" media="screen" charset="utf-8">
+  <script src="http://libs.useso.com/js/bootstrap/3.2.0/js/bootstrap.min.js" charset="utf-8"></script>
+  <link rel="stylesheet" href="http://fonts.useso.com/css?family=Open+Sans:400,300" />
+
+
+</head>
+
+<body>
+
+  <div class="alert alert-success alert-dismissible" role="alert">
+    [Action]
+    <strong id="retname"></strong> [Result]
+    <strong id="retmsg"></strong>
+    <!-- <input type="button" value="userlogin" onclick="UserLogin()"> -->
+  </div>
+
+
+  <form class="form-horizontal">
+
+
+    <div class="form-group">
+
+      <div class="col-sm-offset-2 col-sm-8">
+        <table id="eventlist" class="table table-condensed table-bordered">
+          <caption>镜像列表</caption>
+          <thead>
+            <tr>
+
+              <th>镜像Tag</th>
+              <th>大小</th>
+              <th>创建时间</th>
+              <th>操作</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+
+      <div class="col-sm-offset-2 col-sm-8">
+        <table id="resultstb" class="table table-condensed">
+          <caption>容器列表</caption>
+          <thead>
+            <tr>
+              <th>容器ID</th>
+              <th>容器名称</th>
+              <th>#</th>
+              <th>#</th>
+              <th>#</th>
+              <th>#</th>
+            </tr>
+          </thead>
+
+          <tbody>
+
+          </tbody>
+
+        </table>
+      </div>
+    </div>
+
+
+
+
+  </form>
+
+</body>
+
+<script type="text/javascript">
+  $(document).ready(function() {
+    GetImages();
+  })
+
+  /// 获取所有镜像
+  function GetImages() {
+    $.ajax({
+      url: "/getimages",
+      type: 'GET',
+      success: function(jsondata) {
+        console.log(jsondata);
+
+        if (jsondata.message == "ok") {
+
+          var udata = JSON.parse(jsondata.data);
+
+          $("#eventlist tbody").html("");
+
+          if (jsondata.data != "null") {
+
+            for (var i = 0, l = udata.length; i < udata.length; i++) {
+              var tr = "<tr>";
+              tr += "<td><a>" + udata[i].RepoTags + "</a></td>";
+              tr += "<td>" + bytesToSize(udata[i].VirtualSize) + "</td>";
+              tr += "<td>" + getLocalTime(udata[i].Created) + "</td>";
+
+              tr += "<td><input type=\"button\" value=\"创建容器\" onclick=\"LookWinner('" + udata[i].Id + "')\" class=\"btn btn-default\" /><input type=\"button\" value=\"删除镜像\" onclick=\"ResetEvent('" + udata[i].Id +
+                "')\" class=\"btn btn-default\" /></td>";
+
+              tr += "</tr>";
+              $("#eventlist tbody").append(tr);
+            }
+
+          }
+          GetEvent();
+        }
+      }
+    });
+  }
+
+
+  function bytesToSize(bytes) {
+    if (bytes === 0) return '0 B';
+
+    var k = 1024;
+
+    sizes = ['B', 'KB', 'MB', 'GB', 'TB', 'PB', 'EB', 'ZB', 'YB'];
+
+    i = Math.floor(Math.log(bytes) / Math.log(k));
+    numbyte = (bytes / Math.pow(k, i));
+
+    return numbyte.toPrecision(3) + ' ' + sizes[i];
+    //toPrecision(3) 后面保留一位小数，如1.0GB                                                                                                                  //return (bytes / Math.pow(k, i)).toPrecision(3) + ' ' + sizes[i];
+  }
+
+  function getLocalTime(nS) {
+       return new Date(parseInt(nS) * 1000).toLocaleString().
+       replace("/", "-").
+       replace("/", "-").
+       replace(/上/g, " ").
+       replace(/下/g, " ").
+       replace(/午/g, " ").
+       replace(/年|月/g, "-").
+       replace(/日/g, " ");
+    }
+</script>
+
+</html>
