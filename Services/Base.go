@@ -1,4 +1,4 @@
-package Services
+package services
 
 import (
 	"net/http"
@@ -6,21 +6,38 @@ import (
 	"github.com/pquerna/ffjson/ffjson"
 )
 
-type BaseJsonBean struct {
+const (
+	DockerSvrAddress = "http://192.168.108.128:2375"
+)
+
+/// 初始化包参数
+func init() {
+
+}
+
+/// http请求接口父类
+type BaseHandle struct {
+	returnJson baseJsonBean
+}
+
+/// API返回的json约定格式
+type baseJsonBean struct {
 	Code    int         `json:"code"`
 	Data    interface{} `json:"data"`
 	Message string      `json:"message"`
 }
 
-func NewBaseJsonBean() *BaseJsonBean {
-	return &BaseJsonBean{}
+/// 实例化一个 BaseJsonBean
+func (h *BaseHandle) NewBaseJsonBean() *baseJsonBean {
+	return &h.returnJson
 }
 
-func RetrunResult(data interface{}, code int, message string, w http.ResponseWriter) {
+/// 返回服务器公共约定的json
+func (h *BaseHandle) Result(data interface{}, code int, message string, w http.ResponseWriter) {
 	w.Header().Set("content-type", "application/json;charset=utf-8") //返回数据格式是json
 	w.WriteHeader(code)
 
-	result := NewBaseJsonBean()
+	result := h.NewBaseJsonBean()
 	result.Data = data
 	result.Code = code
 	result.Message = message
@@ -30,9 +47,9 @@ func RetrunResult(data interface{}, code int, message string, w http.ResponseWri
 	w.Write(bytes)
 }
 
-///设置跨域访问
-func setAllowOrigin(w http.ResponseWriter, domain string) {
-	w.Header().Set("Access-Control-Allow-Origin", domain)          //允许访问的域
+/// 允许跨域访问
+func (h *BaseHandle) AllowOrigin(w http.ResponseWriter) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")             //允许访问的域
 	w.Header().Add("Access-Control-Allow-Headers", "Content-Type") //header的类型
 
 }

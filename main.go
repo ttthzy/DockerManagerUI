@@ -4,42 +4,33 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/ttthzy/DockerManagerUI/Services"
+	s "github.com/ttthzy/DockerManagerUI/services"
 	"gopkg.in/macaron.v1"
 )
 
-type Person struct {
-	Name string
-	Age  int
-	Sex  string
-}
-
 func main() {
+
+	/// macaron初始化
 	m := macaron.Classic()
-	m.Use(macaron.Renderer())
+	m.Use(macaron.Renderer())                                                     // 允许服务器渲染模板
+	m.Use(macaron.Static("static/file/"))                                         // 设置静态目录
+	m.Use(macaron.Renderer(macaron.RenderOptions{Directory: "static/templates"})) // 模板文件目录，默认为 "templates"
 
-	// m.Get("/xml", func(ctx *macaron.Context) {
-	//     p := Person{"Unknwon", 21, "male"}
-	//     ctx.XML(200, &p)
-	// })
-	// m.Get("/json", func(ctx *macaron.Context) {
-	//     p := Person{"Unknwon", 21, "male"}
-	//     ctx.JSON(200, &p)
-	// })
-	// m.Get("/raw", func(ctx *macaron.Context) {
-	//     ctx.RawData(200, []byte("raw data goes here"))
-	// })
-	// m.Get("/text", func(ctx *macaron.Context) {
-	//     ctx.PlainText(200, []byte("plain text goes here"))
-	// })
-
+	/// 页面模板处理
 	m.Get("/", func(ctx *macaron.Context) {
 		ctx.Data["title"] = "Docker镜像管理"
 		ctx.HTML(200, "docker/images")
 	})
+	m.Get("/login.html", func(ctx *macaron.Context) {
+		ctx.Data["title"] = "用户登录"
+		ctx.HTML(200, "passwport/login")
+	})
 
-	m.Get("/getimages", Services.GetImages)
+	/// Docker API处理
+	h := new(s.BaseHandle)
+	m.Get("/getimages", h.GetImages)
 
+	/// http服务启动
 	log.Println("Server is running...")
 	http.ListenAndServe("0.0.0.0:8080", m)
 	//http.ListenAndServeTLS(":8080", "server.crt", "server.key", m)

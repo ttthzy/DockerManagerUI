@@ -1,4 +1,4 @@
-package Services
+package services
 
 import (
 	"io/ioutil"
@@ -7,11 +7,11 @@ import (
 	"gopkg.in/macaron.v1"
 )
 
-func GetImages(ctx *macaron.Context) {
+func (h *BaseHandle) GetImages(ctx *macaron.Context) {
 	message := "ok"
-	furl := "http://127.0.0.1:2375/images/json"
+	furl := "/images/json"
 	client := &http.Client{}
-	req, err := http.NewRequest("GET", furl, nil)
+	req, err := http.NewRequest("GET", DockerSvrAddress+furl, nil)
 	if err != nil {
 		message = "接口错误"
 	}
@@ -23,12 +23,12 @@ func GetImages(ctx *macaron.Context) {
 		message = "发送失败"
 	}
 
-	RetrunResult(string(body), 200, message, ctx.Resp)
+	h.Result(string(body), 200, message, ctx.Resp)
 
 }
 
 // 验证一个 API 密钥
-func GetReg(ctx *macaron.Context) {
+func (h *BaseHandle) GetReg(ctx *macaron.Context) {
 	if ctx.Req.Header.Get("X-API-KEY") != "secret123" {
 		ctx.Resp.WriteHeader(http.StatusUnauthorized)
 	}
