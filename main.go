@@ -21,14 +21,20 @@ func main() {
 		ctx.Data["title"] = "Docker镜像管理"
 		ctx.HTML(200, "docker/images")
 	})
-	m.Get("/login.html", func(ctx *macaron.Context) {
-		ctx.Data["title"] = "用户登录"
-		ctx.HTML(200, "passwport/login")
+
+	m.Group("/passwport", func() {
+		m.Get("/login.html", func(ctx *macaron.Context) {
+			ctx.Data["title"] = "用户登录"
+			ctx.HTML(200, "passwport/login")
+		})
 	})
 
 	/// Docker API处理
 	h := new(s.BaseHandle)
-	m.Get("/getimages", h.GetImages)
+	m.Group("/docker", func() {
+		m.Get("/getimages", h.GetImages)
+		//m.Any("/containers", h.GetImages)
+	})
 
 	/// http服务启动
 	log.Println("Server is running...")

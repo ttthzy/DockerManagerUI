@@ -94,7 +94,7 @@
   /// 获取所有镜像
   function GetImages() {
     $.ajax({
-      url: "/getimages",
+      url: "/docker/getimages",
       type: 'GET',
       success: function(jsondata) {
         console.log(jsondata);
