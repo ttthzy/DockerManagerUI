@@ -9,10 +9,10 @@
   <!-- Site Properties -->
   <title>{{.title}}</title>
 
-  <link rel="stylesheet" type="text/css" href="js/semanticUI/semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="/js/semanticUI/semantic.min.css">
 
-  <script src="js/jquery/jquery-1.12.1.min.js" charset="utf-8"></script>
-  <script src="js/semanticUI/semantic.min.js"></script>
+  <script src="/js/jquery/jquery-1.12.1.min.js" charset="utf-8"></script>
+  <script src="/js/semanticUI/semantic.min.js"></script>
 
   <style type="text/css">
     body {
@@ -35,15 +35,15 @@
         .form({
           fields: {
             email: {
-              identifier  : 'email',
+              identifier  : 'username',
               rules: [
                 {
                   type   : 'empty',
-                  prompt : 'Please enter your e-mail'
+                  prompt : '账号不能为空'
                 },
                 {
-                  type   : 'email',
-                  prompt : 'Please enter a valid e-mail'
+                  type   : 'length[3]',
+                  prompt : '账号长度不能低于3位'
                 }
               ]
             },
@@ -52,11 +52,11 @@
               rules: [
                 {
                   type   : 'empty',
-                  prompt : 'Please enter your password'
+                  prompt : '密码不能为空'
                 },
                 {
                   type   : 'length[6]',
-                  prompt : 'Your password must be at least 6 characters'
+                  prompt : '密码长度不能低于6位'
                 }
               ]
             }
@@ -72,9 +72,9 @@
 <div class="ui middle aligned center aligned grid">
   <div class="column">
     <h2 class="ui teal image header">
-      <img src="assets/images/logo.png" class="image">
+      <img src="/img/docker_logo.png" class="image">
       <div class="content">
-        Log-in to your account
+        My Docker UI
       </div>
     </h2>
     <form class="ui large form">
@@ -82,16 +82,16 @@
         <div class="field">
           <div class="ui left icon input">
             <i class="user icon"></i>
-            <input type="text" name="email" placeholder="E-mail address">
+            <input type="text" name="username" placeholder="请输入账号">
           </div>
         </div>
         <div class="field">
           <div class="ui left icon input">
             <i class="lock icon"></i>
-            <input type="password" name="password" placeholder="Password">
+            <input type="password" name="password" placeholder="请输入密码">
           </div>
         </div>
-        <div class="ui fluid large teal submit button">Login</div>
+        <div class="ui fluid large teal button">登录</div>
       </div>
 
       <div class="ui error message"></div>
@@ -99,7 +99,7 @@
     </form>
 
     <div class="ui message">
-      New to us? <a href="#">Sign Up</a>
+      没有账号? <a href="#">立即注册</a>
     </div>
   </div>
 </div>
