@@ -1,7 +1,7 @@
 package routes
 
 import (
-	s "github.com/ttthzy/DockerManagerUI/services"
+	s "github.com/ttthzy/mydockerui/services"
 	"gopkg.in/macaron.v1"
 )
 
