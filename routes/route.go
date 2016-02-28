@@ -1,33 +1,40 @@
 package routes
 
 import (
-	s "github.com/ttthzy/mydockerui/services"
-	"gopkg.in/macaron.v1"
+	api "github.com/ttthzy/mydockerui/services/api"
+	controller "github.com/ttthzy/mydockerui/services/controller"
 )
 
 func (r *RouteHandel) RouteMap() {
-	m := r.m
-	/// 页面模板处理
-	m.Get("/", func(ctx *macaron.Context) {
-		ctx.Data["title"] = "Docker镜像管理"
-		ctx.HTML(200, "docker/images")
+
+	/////////////////////////////////////////////////////
+	/* --------------- html模板处理  ----------------- */
+	chandle := new(controller.BaseHandle)
+
+	/* docker html */
+	r.m.Group("/docker", func() {
+		r.m.Get("/images.html", chandle.DockerImages) //镜像列表页
 	})
 
-	/// 账号服务组
-	m.Group("/passwport", func() {
-		m.Get("/login.html", func(ctx *macaron.Context) {
-			ctx.Data["title"] = "用户登录"
-			ctx.HTML(200, "passwport/login")
-		})
+	/* passport html */
+	r.m.Group("/passwport", func() {
+		r.m.Get("/login.html", chandle.UserLogin) //用户登录页
 	})
+	/////////////////////////////////////////////////////
 
-	/// Docker API处理组
-	h := new(s.BaseHandle)
-	m.Group("/docker", func() {
-		m.Get("/getimages", h.GetImages)
+	/////////////////////////////////////////////////////
+	/* --------------- webapi处理  ------------------- */
+	ahandle := new(api.BaseHandle)
+
+	/* docker remote api */
+	r.m.Group("/docker", func() {
+		r.m.Get("/getimages", ahandle.GetImages)
 		//m.Any("/containers", h.GetImages)
 	})
+	/////////////////////////////////////////////////////
 
-	/// 启动 httpserver 服务
+	/////////////////////////////////////////////////////
+	/* ---------------- 启动httpserver --------------- */
 	r.HttpServerRun()
+	/////////////////////////////////////////////////////
 }

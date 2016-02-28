@@ -1,4 +1,4 @@
-package services
+package api
 
 import (
 	"net/http"
@@ -9,11 +9,6 @@ import (
 const (
 	DockerSvrAddress = "http://192.168.108.128:2375"
 )
-
-/// 初始化包参数
-func init() {
-
-}
 
 /// http请求接口父类
 type BaseHandle struct {
