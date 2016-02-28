@@ -77,7 +77,8 @@
         My Docker UI
       </div>
     </h2>
-    <form class="ui large form">
+    <form class="ui large form" action="/api/passwport/checklogin" method="post">
+      <input type="hidden" name="_csrf" value="{{.csrf_token}}">
       <div class="ui stacked segment">
         <div class="field">
           <div class="ui left icon input">
@@ -91,11 +92,11 @@
             <input type="password" name="password" placeholder="请输入密码">
           </div>
         </div>
-        <div class="ui fluid large teal button">登录</div>
+        <div class="ui fluid large teal submit button">登录</div>
       </div>
 
       <div class="ui error message"></div>
-
+<div>{{.error}}</div>
     </form>
 
     <div class="ui message">

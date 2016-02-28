@@ -8,6 +8,7 @@ import (
 type UserInfo struct {
 	Id         bson.ObjectId `bson:"_id"`
 	Account    string        `bson:"Account"`    //
+	Password   string        `bson:"Password"`   //
 	NickName   string        `bson:"NickName"`   //
 	Phone      string        `bson:"Phone"`      //
 	DockerUrl  []UserDocker  `bson:"DockerUrl"`  //

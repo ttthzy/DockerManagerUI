@@ -8,10 +8,10 @@
 
   <title>{{.title}}</title>
 
-  <link rel="stylesheet" type="text/css" href="js/semanticUI/semantic.min.css">
+  <link rel="stylesheet" type="text/css" href="/js/semanticUI/semantic.min.css">
 
-  <script src="js/jquery/jquery-1.12.1.min.js" charset="utf-8"></script>
-  <script src="js/semanticUI/semantic.min.js"></script>
+  <script src="/js/jquery/jquery-1.12.1.min.js" charset="utf-8"></script>
+  <script src="/js/semanticUI/semantic.min.js"></script>
 
   <style>
     body {
@@ -94,7 +94,7 @@
   /// 获取所有镜像
   function GetImages() {
     $.ajax({
-      url: "/docker/getimages",
+      url: "/api/docker/getimages",
       type: 'GET',
       success: function(jsondata) {
         console.log(jsondata);

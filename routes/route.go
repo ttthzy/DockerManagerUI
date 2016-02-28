@@ -25,11 +25,18 @@ func (r *RouteHandel) RouteMap() {
 	/////////////////////////////////////////////////////
 	/* --------------- webapi处理  ------------------- */
 	ahandle := new(api.BaseHandle)
+	r.m.Group("/api", func() {
+		/* docker remote api */
+		r.m.Group("/docker", func() {
+			r.m.Get("/getimages", ahandle.GetImages)
+			//m.Any("/containers", h.GetImages)
+		})
 
-	/* docker remote api */
-	r.m.Group("/docker", func() {
-		r.m.Get("/getimages", ahandle.GetImages)
-		//m.Any("/containers", h.GetImages)
+		/* docker remote api */
+		r.m.Group("/passwport", func() {
+			r.m.Post("/checklogin", ahandle.CheckLogin)
+			//m.Any("/containers", h.GetImages)
+		})
 	})
 	/////////////////////////////////////////////////////
 
