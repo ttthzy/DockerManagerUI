@@ -11,9 +11,11 @@
   <script type="text/javascript">
     function csrftest() {
       $.ajax({
-        url: "http://127.0.0.1:4000/protected",
+        url: "http://www.timeapi.org/utc/now.json",
         type: 'GET',
+        dataType : "jsonp",
         success: function(data) {
+          alert(new Date(json.dateString));
           console.log(data);
         }
       });

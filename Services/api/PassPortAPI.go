@@ -10,7 +10,7 @@ func (h *BaseHandle) CheckLogin(ctx *macaron.Context, sess session.Store) {
 	username := ctx.Query("username")
 	password := ctx.Query("password")
 
-	if username == "admin" && password == "2221237" {
+	if username == "admin" && password == "admin" {
 		sess.Set("uid", username)
 		ctx.Redirect("/docker/images.html")
 	} else {

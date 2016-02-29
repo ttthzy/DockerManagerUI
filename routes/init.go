@@ -1,7 +1,6 @@
 package routes
 
 import (
-	"github.com/go-macaron/cache"
 	_ "github.com/go-macaron/cache/redis"
 	"github.com/go-macaron/csrf"
 	"github.com/go-macaron/session"
@@ -23,11 +22,11 @@ func (r *RouteHandel) MaInit() {
 	r.m.Use(session.Sessioner())                                                    //启用session
 	r.m.Use(csrf.Csrfer())                                                          // 开启 CSRF防御机制
 	/// 启用缓存服务
-	r.m.Use(cache.Cacher(cache.Options{
-		Adapter:       "redis",
-		AdapterConfig: "addr=192.168.108.128:32768,password=secondlife",
-		OccupyMode:    false, //true则独占redis
-	}))
+	// r.m.Use(cache.Cacher(cache.Options{
+	// 	Adapter:       "redis",
+	// 	AdapterConfig: "addr=192.168.108.128:32768,password=secondlife",
+	// 	OccupyMode:    false, //true则独占redis
+	// }))
 
 	r.RouteMap()
 }

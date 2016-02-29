@@ -6,7 +6,6 @@ import (
 )
 
 func (r *RouteHandel) RouteMap() {
-
 	/////////////////////////////////////////////////////
 	/* --------------- html模板处理  ----------------- */
 	chandle := new(controller.BaseHandle)
