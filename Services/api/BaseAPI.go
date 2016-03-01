@@ -7,7 +7,7 @@ import (
 )
 
 const (
-	DockerSvrAddress = "http://192.168.108.128:2375"
+	DockerSvrAddress = "http://172.20.7.101:2375"
 )
 
 /// http请求接口父类
